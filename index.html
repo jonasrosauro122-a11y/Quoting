@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LAVA PL RATER Carrier Portal standalone training simulator for Auto and Homeowners quoting practice." />
+  <title>LAVA PL RATER | Carrier Portal Training Simulator</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="portal-bg" aria-hidden="true"></div>
+  <div class="mesh mesh-one" aria-hidden="true"></div>
+  <div class="mesh mesh-two" aria-hidden="true"></div>
+
+  <main id="app">
+    <section id="loginScreen" class="login-screen screen active">
+      <div class="login-shell">
+        <div class="login-hero card elevated">
+          <div class="brand-stack">
+            <img src="images/lava-logo.svg" alt="LAVA logo" class="brand-mark" />
+            <div>
+              <span class="eyebrow">Personal Lines Training</span>
+              <h1>LAVA PL RATER</h1>
+            </div>
+          </div>
+          <p class="hero-copy">A standalone carrier-style quoting portal for VA training. Practice the same flow used in real carrier portals: applicant intake, risk details, coverages, underwriting questions, carrier appetite, and quote comparison.</p>
+          <div class="login-highlights">
+            <span>Auto + Home</span>
+            <span>Carrier appetite</span>
+            <span>Saved history</span>
+            <span>No build needed</span>
+          </div>
+        </div>
+
+        <form id="loginForm" class="login-card card elevated" autocomplete="on">
+          <p class="eyebrow">Secure Training Access</p>
+          <h2>Start Portal Session</h2>
+          <label class="field">
+            <span>Full Name</span>
+            <input id="userName" type="text" required placeholder="Example: Maria Santos" />
+          </label>
+          <label class="field">
+            <span>Email</span>
+            <input id="userEmail" type="email" required placeholder="name@lavatraining.com" />
+          </label>
+          <label class="field">
+            <span>Role</span>
+            <select id="userRole">
+              <option value="VA Trainee">VA Trainee</option>
+              <option value="Trainer / TL">Trainer / TL</option>
+              <option value="Producer Practice">Producer Practice</option>
+            </select>
+          </label>
+          <p class="form-error" id="loginError" role="alert"></p>
+          <button type="submit" class="btn primary full">Enter Carrier Portal</button>
+          <p class="fine-print">This simulator uses local browser storage only. No Supabase or API setup is required.</p>
+        </form>
+      </div>
+    </section>
+
+    <section id="portalScreen" class="portal-screen screen">
+      <aside class="sidebar">
+        <button class="logo-button" data-route="dashboard" type="button">
+          <img src="images/lava-logo.svg" alt="LAVA logo" />
+          <span>
+            <strong>PL RATER</strong>
+            <small>Carrier Portal</small>
+          </span>
+        </button>
+        <nav class="side-nav" aria-label="Portal navigation">
+          <button class="active" type="button" data-route="dashboard"><span>▣</span> Dashboard</button>
+          <button type="button" data-route="quote"><span>✎</span> New Quote</button>
+          <button type="button" data-route="appetite"><span>◈</span> Carrier Appetite</button>
+          <button type="button" data-route="history"><span>☷</span> Quote History</button>
+          <button type="button" data-route="guide"><span>?</span> Training Guide</button>
+        </nav>
+        <div class="user-mini card soft">
+          <span id="miniUserName">User</span>
+          <small id="miniUserRole">VA Trainee</small>
+          <button id="logoutBtn" type="button" class="btn ghost full">Logout</button>
+        </div>
+      </aside>
+
+      <div class="main-panel">
+        <header class="topbar card soft">
+          <div>
+            <p class="eyebrow" id="portalDate">Carrier Training Portal</p>
+            <h2 id="pageTitle">Dashboard</h2>
+          </div>
+          <div class="topbar-actions">
+            <button id="themeBtn" class="btn ghost" type="button">Toggle Theme</button>
+            <button class="btn primary" type="button" data-route="quote">Start New Quote</button>
+          </div>
+        </header>
+
+        <section id="dashboardView" class="view active">
+          <div class="dashboard-hero card elevated">
+            <div>
+              <span class="eyebrow">Carrier Portal Simulation</span>
+              <h2>Quote like a real Personal Lines rater.</h2>
+              <p>Use the guided workflow to collect precise intake answers, apply underwriting logic, and compare multiple carriers before saving the quote result.</p>
+            </div>
+            <div class="hero-buttons">
+              <button class="btn primary" type="button" data-start-product="auto">Start Auto Quote</button>
+              <button class="btn secondary" type="button" data-start-product="home">Start Home Quote</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat card soft"><span>Total Quotes</span><strong id="statTotal">0</strong></article>
+            <article class="stat card soft"><span>Auto Quotes</span><strong id="statAuto">0</strong></article>
+            <article class="stat card soft"><span>Home Quotes</span><strong id="statHome">0</strong></article>
+            <article class="stat card soft"><span>Last Premium</span><strong id="statPremium">—</strong></article>
+          </div>
+
+          <div class="portal-grid two">
+            <article class="card elevated workflow-card">
+              <div class="card-head">
+                <div>
+                  <span class="eyebrow">Workflow</span>
+                  <h3>Carrier quote path</h3>
+                </div>
+                <span class="status-pill good">Ready</span>
+              </div>
+              <ol class="workflow-list">
+                <li><strong>Applicant</strong><span>Confirm insured identity, DOB, policy date, and contact.</span></li>
+                <li><strong>Risk Details</strong><span>Collect vehicle, driver, or property facts.</span></li>
+                <li><strong>Coverage</strong><span>Select limits, deductibles, endorsements, and discounts.</span></li>
+                <li><strong>Underwriting</strong><span>Ask precise eligibility questions before quote.</span></li>
+                <li><strong>Carrier Review</strong><span>Compare appetite, premium, flags, and next steps.</span></li>
+              </ol>
+            </article>
+            <article class="card elevated recent-card">
+              <div class="card-head">
+                <div>
+                  <span class="eyebrow">Recent Activity</span>
+                  <h3>Last saved quote</h3>
+                </div>
+                <button class="btn ghost small" type="button" data-route="history">View all</button>
+              </div>
+              <div id="recentQuoteBox" class="empty-state compact">No saved quotes yet.</div>
+            </article>
+          </div>
+        </section>
+
+        <section id="quoteView" class="view">
+          <div class="quote-top card elevated">
+            <div>
+              <span class="eyebrow">New Business Quote</span>
+              <h3 id="quoteHeaderTitle">Auto Quote Intake</h3>
+              <p id="quoteHeaderCopy">Answer each section before moving to carrier review.</p>
+            </div>
+            <div class="product-toggle" role="group" aria-label="Select product">
+              <button id="autoProductBtn" class="active" type="button" data-product="auto">Auto</button>
+              <button id="homeProductBtn" type="button" data-product="home">Home</button>
+            </div>
+          </div>
+
+          <div class="quote-layout">
+            <aside class="quote-steps card soft">
+              <div class="scenario-box">
+                <span class="eyebrow">Training Scenario</span>
+                <div class="scenario-buttons">
+                  <button class="btn tiny" type="button" data-scenario="easy">Easy</button>
+                  <button class="btn tiny" type="button" data-scenario="normal">Normal</button>
+                  <button class="btn tiny" type="button" data-scenario="hard">Hard</button>
+                </div>
+              </div>
+              <div id="stepList" class="step-list"></div>
+              <div class="quote-progress">
+                <span>Completion</span>
+                <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+                <strong id="progressText">0%</strong>
+              </div>
+            </aside>
+
+            <section class="quote-form-panel card elevated">
+              <div class="section-toolbar">
+                <div>
+                  <span class="eyebrow" id="stepEyebrow">Step 1</span>
+                  <h3 id="stepTitle">Applicant</h3>
+                </div>
+                <button id="clearQuoteBtn" class="btn ghost small" type="button">Clear Quote</button>
+              </div>
+              <div id="questionContainer" class="question-grid"></div>
+              <div id="validationBox" class="validation-box" hidden></div>
+              <div class="quote-actions">
+                <button id="prevStepBtn" class="btn ghost" type="button">Previous</button>
+                <button id="nextStepBtn" class="btn primary" type="button">Next Section</button>
+                <button id="rateQuoteBtn" class="btn success" type="button">Rate Quote</button>
+              </div>
+            </section>
+
+            <aside class="quote-assistant card soft">
+              <span class="eyebrow">Question Helper</span>
+              <h3>Why these questions matter</h3>
+              <div id="helperContent" class="helper-content"></div>
+              <hr />
+              <span class="eyebrow">Quote Snapshot</span>
+              <dl id="snapshotList" class="snapshot-list"></dl>
+            </aside>
+          </div>
+        </section>
+
+        <section id="resultsView" class="view">
+          <div class="results-header card elevated">
+            <div>
+              <span class="eyebrow">Carrier Review</span>
+              <h3 id="resultsTitle">Quote Results</h3>
+              <p id="resultsSubtext">Review appetite, premium, flags, and next action before binding.</p>
+            </div>
+            <div class="results-actions">
+              <button id="backToQuoteBtn" class="btn ghost" type="button">Edit Quote</button>
+              <button id="saveQuoteBtn" class="btn primary" type="button">Save Quote</button>
+              <button id="printQuoteBtn" class="btn secondary" type="button">Print / PDF</button>
+            </div>
+          </div>
+          <div id="quoteSummary" class="quote-summary card soft"></div>
+          <div id="carrierResults" class="carrier-results"></div>
+        </section>
+
+        <section id="appetiteView" class="view">
+          <div class="card elevated section-intro">
+            <span class="eyebrow">Carrier Appetite</span>
+            <h3>Training appetite board</h3>
+            <p>This board helps VAs understand which carrier may be more competitive based on common risk characteristics. Final eligibility still depends on the full underwriting answers.</p>
+          </div>
+          <div id="appetiteGrid" class="appetite-grid"></div>
+        </section>
+
+        <section id="historyView" class="view">
+          <div class="history-head card elevated">
+            <div>
+              <span class="eyebrow">Saved Quote History</span>
+              <h3>Local training records</h3>
+              <p>Saved in this browser only. Export CSV if you need to share training activity.</p>
+            </div>
+            <div class="history-actions">
+              <button id="exportCsvBtn" class="btn secondary" type="button">Export CSV</button>
+              <button id="clearHistoryBtn" class="btn danger" type="button">Clear History</button>
+            </div>
+          </div>
+          <div class="table-wrap card soft">
+            <table>
+              <thead>
+                <tr>
+                  <th>Quote #</th>
+                  <th>Date</th>
+                  <th>Product</th>
+                  <th>Named Insured</th>
+                  <th>Best Carrier</th>
+                  <th>Annual</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="historyBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="guideView" class="view">
+          <div class="card elevated section-intro">
+            <span class="eyebrow">Training Guide</span>
+            <h3>Precise questions used in this carrier portal</h3>
+            <p>Use this guide to coach VAs on why each question is asked and how it affects quote accuracy.</p>
+          </div>
+          <div id="guideContent" class="guide-grid"></div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
