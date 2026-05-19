@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LAVA PL RATER standalone insurance quoting training simulator for Auto and Homeowners practice." />
+  <title>LAVA PL RATER | Training Simulator</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="lava-bg" aria-hidden="true"></div>
+
+  <header class="topbar app-only hidden" id="topbar">
+    <button class="brand-button" data-route="dashboard" aria-label="Go to dashboard">
+      <img src="images/lava-logo.png" alt="LAVA logo" class="brand-logo" />
+      <span>
+        <strong>LAVA PL RATER</strong>
+        <small>Training Simulator</small>
+      </span>
+    </button>
+
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <button data-route="dashboard">Dashboard</button>
+      <button data-route="auto">Auto Quote</button>
+      <button data-route="home">Home Quote</button>
+      <button data-route="history">History</button>
+      <button data-route="trainer" class="trainer-only hidden">Trainer</button>
+    </nav>
+
+    <div class="topbar-actions">
+      <button class="ghost-btn" id="themeToggle" type="button">Dark Mode</button>
+      <button class="danger-ghost" id="logoutBtn" type="button">Logout</button>
+    </div>
+  </header>
+
+  <main id="app" class="app-shell">
+    <section class="screen login-screen" id="loginScreen">
+      <div class="login-card glass-card">
+        <img src="images/lava-logo.png" alt="LAVA logo" class="login-logo" />
+        <p class="eyebrow">Personal Lines Training</p>
+        <h1>LAVA PL RATER</h1>
+        <p class="muted center">Standalone Auto and Homeowners quoting simulator for VA training, practice, quote comparison, and trainer monitoring.</p>
+
+        <form id="loginForm" class="form-grid" autocomplete="on">
+          <div class="role-toggle" role="group" aria-label="Select user role">
+            <button type="button" class="role-option active" data-role="student">VA Student</button>
+            <button type="button" class="role-option" data-role="trainer">Trainer / TL</button>
+          </div>
+
+          <label>
+            Full Name
+            <input type="text" id="loginName" placeholder="e.g. Maria Santos" required />
+          </label>
+
+          <label>
+            LAVA Email
+            <input type="email" id="loginEmail" placeholder="name@lavatraining.com" required />
+            <small>Use a @lavatraining.com email for training access.</small>
+          </label>
+
+          <label id="trainerPasswordWrap" class="hidden">
+            Trainer Password
+            <input type="password" id="trainerPassword" placeholder="Enter trainer password" />
+            <small>Default password: <strong>LavaTrainer2025!</strong></small>
+          </label>
+
+          <p class="form-error" id="loginError" role="alert"></p>
+          <button type="submit" class="primary-btn full">Start Training</button>
+        </form>
+
+        <div class="mini-grid">
+          <span>7 carriers</span>
+          <span>Auto + Home</span>
+          <span>Local history</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="dashboardScreen">
+      <div class="hero glass-card">
+        <div>
+          <p class="eyebrow">Welcome back</p>
+          <h2 id="welcomeName">Dashboard</h2>
+          <p class="muted" id="welcomeSubtext">Select a quoting workflow to begin.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="primary-btn" data-route="auto">Start Auto Quote</button>
+          <button class="secondary-btn" data-route="home">Start Home Quote</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <article class="stat-card glass-card">
+          <span>Total Quotes</span>
+          <strong id="statTotal">0</strong>
+        </article>
+        <article class="stat-card glass-card">
+          <span>Auto Quotes</span>
+          <strong id="statAuto">0</strong>
+        </article>
+        <article class="stat-card glass-card">
+          <span>Home Quotes</span>
+          <strong id="statHome">0</strong>
+        </article>
+        <article class="stat-card glass-card">
+          <span>Best Carrier</span>
+          <strong id="statCarrier">—</strong>
+        </article>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card glass-card">
+          <div class="feature-icon">🚗</div>
+          <h3>Auto Quote Practice</h3>
+          <p>Practice driver, vehicle, coverage, discounts, and carrier comparison.</p>
+          <button class="primary-btn" data-route="auto">Open Auto Form</button>
+        </article>
+        <article class="feature-card glass-card">
+          <div class="feature-icon">🏠</div>
+          <h3>Homeowners Quote Practice</h3>
+          <p>Practice HO3, HO4, HO6, property details, claims, coverages, and discounts.</p>
+          <button class="primary-btn" data-route="home">Open Home Form</button>
+        </article>
+        <article class="feature-card glass-card">
+          <div class="feature-icon">📊</div>
+          <h3>Quote History</h3>
+          <p>Review saved quote results, print summaries, and monitor training progress.</p>
+          <button class="secondary-btn" data-route="history">View History</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="autoScreen">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Auto Training Workflow</p>
+          <h2>Auto Quote Form</h2>
+          <p class="muted">Fill out the rating details or load a training scenario.</p>
+        </div>
+        <div class="scenario-actions">
+          <button class="tiny-btn" data-auto-scenario="easy">Easy Scenario</button>
+          <button class="tiny-btn" data-auto-scenario="normal">Normal Scenario</button>
+          <button class="tiny-btn" data-auto-scenario="hard">Hard Scenario</button>
+        </div>
+      </div>
+
+      <form id="autoForm" class="quote-layout">
+        <div class="form-panel glass-card">
+          <h3>Named Insured</h3>
+          <div class="grid-2">
+            <label>Full Name<input name="fullName" required placeholder="Alex Johnson" /></label>
+            <label>Date of Birth<input type="date" name="dateOfBirth" required /></label>
+            <label>State<select name="state"></select></label>
+            <label>ZIP Code<input name="zip" inputmode="numeric" maxlength="10" placeholder="90210" required /></label>
+          </div>
+        </div>
+
+        <div class="form-panel glass-card">
+          <div class="panel-title-row">
+            <h3>Vehicle Information</h3>
+            <span class="pill">VIN helper included</span>
+          </div>
+          <div class="grid-2">
+            <label>VIN<input name="vin" maxlength="17" placeholder="1HGCM82633A004352" /></label>
+            <label>Vehicle Year<input name="year" inputmode="numeric" placeholder="2022" required /></label>
+            <label>Make<input name="make" placeholder="Toyota" required /></label>
+            <label>Model<input name="model" placeholder="Camry" required /></label>
+            <label>Annual Mileage<input name="annualMileage" inputmode="numeric" placeholder="12000" required /></label>
+            <label>Vehicle Use<select name="vehicleUse"><option>Commute</option><option>Pleasure</option><option>Business</option></select></label>
+          </div>
+          <p class="hint" id="vinHint">Enter a 17-character VIN to auto-detect sample year/make/model when available.</p>
+        </div>
+
+        <div class="form-panel glass-card">
+          <h3>Driver History</h3>
+          <div class="grid-2">
+            <label>License Status<select name="licenseStatus"><option value="valid">Valid</option><option value="permit">Permit</option><option value="suspended">Suspended</option><option value="revoked">Revoked</option></select></label>
+            <label>Years Driving<input name="yearsDriving" inputmode="numeric" placeholder="8" required /></label>
+            <label>At-Fault Accidents<input name="atFaultAccidents" inputmode="numeric" value="0" required /></label>
+            <label>Moving Violations<input name="movingViolations" inputmode="numeric" value="0" required /></label>
+          </div>
+        </div>
+
+        <div class="form-panel glass-card">
+          <h3>Coverage</h3>
+          <div class="grid-2">
+            <label>Liability Limit<select name="liabilityLimit"><option value="25/50">25/50</option><option value="50/100">50/100</option><option value="100/300" selected>100/300</option><option value="250/500">250/500</option></select></label>
+            <label>Comprehensive Deductible<select name="compDeductible"><option value="250">$250</option><option value="500" selected>$500</option><option value="1000">$1,000</option><option value="2000">$2,000</option></select></label>
+            <label>Collision Deductible<select name="collisionDeductible"><option value="250">$250</option><option value="500" selected>$500</option><option value="1000">$1,000</option><option value="2000">$2,000</option></select></label>
+            <label>Medical Payments<select name="medicalPayments"><option value="0">None</option><option value="1000">$1,000</option><option value="5000" selected>$5,000</option><option value="10000">$10,000</option></select></label>
+          </div>
+          <div class="check-grid">
+            <label><input type="checkbox" name="uninsuredMotorist" checked /> Uninsured Motorist</label>
+            <label><input type="checkbox" name="rentalReimbursement" /> Rental Reimbursement</label>
+            <label><input type="checkbox" name="roadsideAssistance" /> Roadside Assistance</label>
+          </div>
+        </div>
+
+        <div class="form-panel glass-card">
+          <h3>Discounts</h3>
+          <div class="check-grid">
+            <label><input type="checkbox" name="multiCar" /> Multi-Car</label>
+            <label><input type="checkbox" name="homeownerBundle" /> Home Bundle</label>
+            <label><input type="checkbox" name="goodDriver" checked /> Good Driver</label>
+            <label><input type="checkbox" name="safetyDevice" /> Safety Device</label>
+            <label><input type="checkbox" name="dynamicDrive" /> Telematics / Dynamic Drive</label>
+          </div>
+          <button type="submit" class="primary-btn full">Generate Auto Quote</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="screen hidden" id="homeScreen">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Homeowners Training Workflow</p>
+          <h2>Home Quote Form</h2>
+          <p class="muted">Practice HO3, HO4, HO6, coverage, claims, and discount review.</p>
+        </div>
+        <div class="scenario-actions">
+          <button class="tiny-btn" data-home-scenario="easy">Easy Scenario</button>
+          <button class="tiny-btn" data-home-scenario="normal">Normal Scenario</button>
+          <button class="tiny-btn" data-home-scenario="hard">Hard Scenario</button>
+        </div>
+      </div>
+
+      <form id="homeForm" class="quote-layout">
+        <div class="form-panel glass-card">
+          <h3>Named Insured</h3>
+          <div class="grid-2">
+            <label>Full Name<input name="fullName" required placeholder="Jamie Rivera" /></label>
+            <label>State<select name="state"></select></label>
+            <label>ZIP Code<input name="zip" inputmode="numeric" maxlength="10" placeholder="33101" required /></label>
+            <label>Policy Type<select name="policyType"><option value="HO3">HO3 - Homeowners</option><option value="HO4">HO4 - Renters</option><option value="HO6">HO6 - Condo</option></select></label>
+          </div>
+        </div>
+
+        <div class="form-panel glass-card">
+          <h3>Property Information</h3>
+          <div class="grid-2">
+            <label>Year Built<input name="yearBuilt" inputmode="numeric" placeholder="2012" required /></label>
+            <label>Construction Type<select name="constructionType"><option value="frame">Frame</option><option value="masonry">Masonry</option><option value="steel">Steel</option></select></label>
+            <label>Roof Type<select name="roofType"><option value="asphalt">Asphalt Shingle</option><option value="tile">Tile</option><option value="metal">Metal</option><option value="slate">Slate</option></select></label>
+            <label>Roof Age<input name="roofAge" inputmode="numeric" placeholder="6" required /></label>
+          </div>
+          <div class="check-grid">
+            <label><input type="checkbox" name="swimmingPool" /> Swimming Pool</label>
+            <label><input type="checkbox" name="trampoline" /> Trampoline</label>
+          </div>
+        </div>
+
+        <div class="form-panel glass-card">
+          <h3>Coverage</h3>
+          <div class="grid-2">
+            <label>Dwelling Coverage<input name="dwellingCoverage" inputmode="numeric" value="350000" required /></label>
+            <label>Other Structures %<input name="otherStructures" inputmode="numeric" value="10" required /></label>
+            <label>Personal Property %<input name="personalProperty" inputmode="numeric" value="50" required /></label>
+            <label>Liability<select name="liability"><option value="100000">$100,000</option><option value="300000" selected>$300,000</option><option value="500000">$500,000</option></select></label>
+            <label>Medical Payments<select name="medicalPayments"><option value="1000">$1,000</option><option value="5000" selected>$5,000</option><option value="10000">$10,000</option></select></label>
+            <label>Claims in 5 Years<input name="numberOfClaims" inputmode="numeric" value="0" required /></label>
+          </div>
+        </div>
+
+        <div class="form-panel glass-card">
+          <h3>Discounts & Endorsements</h3>
+          <div class="check-grid">
+            <label><input type="checkbox" name="multiPolicy" checked /> Multi-Policy</label>
+            <label><input type="checkbox" name="protectiveDevices" /> Protective Devices</label>
+            <label><input type="checkbox" name="claimsFree" checked /> Claims-Free</label>
+            <label><input type="checkbox" name="replacementCost" checked /> Replacement Cost</label>
+            <label><input type="checkbox" name="waterBackup" /> Water Backup</label>
+            <label><input type="checkbox" name="earthquake" /> Earthquake</label>
+            <label><input type="checkbox" name="flood" /> Flood</label>
+          </div>
+          <button type="submit" class="primary-btn full">Generate Home Quote</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="screen hidden" id="resultsScreen">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Quote Comparison</p>
+          <h2 id="resultsTitle">Results</h2>
+          <p class="muted" id="resultsMeta">Carrier premiums are simulated for training only.</p>
+        </div>
+        <div class="scenario-actions">
+          <button class="secondary-btn" id="printQuoteBtn" type="button">Print / Save PDF</button>
+          <button class="primary-btn" id="saveQuoteBtn" type="button">Save Quote</button>
+        </div>
+      </div>
+      <div class="results-grid" id="resultsGrid"></div>
+      <div class="glass-card disclaimer">
+        <strong>Training disclaimer:</strong> These premiums are simulated and are not carrier-approved rates. Use this app only to practice workflow, attention to detail, carrier comparison, and quote summary documentation.
+      </div>
+    </section>
+
+    <section class="screen hidden" id="historyScreen">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Saved Activity</p>
+          <h2>Quote History</h2>
+          <p class="muted">Review saved quote runs from this browser.</p>
+        </div>
+        <div class="scenario-actions">
+          <button class="secondary-btn" id="exportMyCsvBtn" type="button">Export CSV</button>
+          <button class="danger-ghost" id="clearMyHistoryBtn" type="button">Clear My History</button>
+        </div>
+      </div>
+      <div class="table-wrap glass-card">
+        <table>
+          <thead><tr><th>Date</th><th>VA</th><th>Type</th><th>Applicant</th><th>Best Carrier</th><th>Annual</th><th>Action</th></tr></thead>
+          <tbody id="historyTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="screen hidden" id="trainerScreen">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Trainer / TL View</p>
+          <h2>Training Monitor</h2>
+          <p class="muted">All local activity saved in this browser. Use CSV export for reporting.</p>
+        </div>
+        <div class="scenario-actions">
+          <button class="secondary-btn" id="exportAllCsvBtn" type="button">Export All CSV</button>
+          <button class="danger-ghost" id="clearAllDataBtn" type="button">Clear All Data</button>
+        </div>
+      </div>
+      <div class="stats-grid">
+        <article class="stat-card glass-card"><span>Total Users</span><strong id="trainerUsers">0</strong></article>
+        <article class="stat-card glass-card"><span>Total Quotes</span><strong id="trainerQuotes">0</strong></article>
+        <article class="stat-card glass-card"><span>Auto</span><strong id="trainerAuto">0</strong></article>
+        <article class="stat-card glass-card"><span>Home</span><strong id="trainerHome">0</strong></article>
+      </div>
+      <div class="table-wrap glass-card">
+        <table>
+          <thead><tr><th>VA Name</th><th>Email</th><th>Role</th><th>Login Count</th><th>Last Login</th></tr></thead>
+          <tbody id="usersTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="js/app.js" defer></script>
+</body>
+</html>
