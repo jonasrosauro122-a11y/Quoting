@@ -1,0 +1,5 @@
+{
+  "purpose": "Optional reference copy of the built-in scenarios. The app works without fetching this file.",
+  "autoScenarios": ["easy", "normal", "hard"],
+  "homeScenarios": ["easy", "normal", "hard"]
+}
