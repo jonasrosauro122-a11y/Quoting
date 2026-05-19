@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="LAVA PL RATER realistic carrier-style Personal Lines quote portal simulator for VA training." />
+  <title>LAVA PL RATER | Carrier Quote Portal</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-orb orb-a" aria-hidden="true"></div>
+  <div class="bg-orb orb-b" aria-hidden="true"></div>
+
+  <main id="app">
+    <section id="loginScreen" class="screen active login-screen">
+      <div class="login-layout">
+        <article class="login-hero panel raised">
+          <div class="brand-row">
+            <img src="images/lava-logo.svg" alt="LAVA logo" class="brand-logo" />
+            <div>
+              <p class="eyebrow">Carrier Portal Simulation</p>
+              <h1>LAVA PL RATER</h1>
+            </div>
+          </div>
+          <h2>New Business quoting workflow for Personal Lines training.</h2>
+          <p>
+            A realistic, standalone carrier-style quote portal for Auto and Homeowners practice. Trainees answer precise carrier intake, coverage, eligibility, and underwriting questions before reviewing simulated carrier results.
+          </p>
+          <div class="hero-badges">
+            <span>Auto Quote</span>
+            <span>Home Quote</span>
+            <span>Carrier Review</span>
+            <span>Quote History</span>
+          </div>
+          <div class="hero-note">
+            <strong>No build needed.</strong> Upload this folder directly to GitHub and Netlify. It runs as a static website.
+          </div>
+        </article>
+
+        <form id="loginForm" class="login-card panel raised" autocomplete="on">
+          <p class="eyebrow">Training Access</p>
+          <h2>Open Carrier Workspace</h2>
+          <label class="field">
+            <span>Full name</span>
+            <input id="userName" type="text" placeholder="Example: Maria Santos" required />
+          </label>
+          <label class="field">
+            <span>LAVA / work email</span>
+            <input id="userEmail" type="email" placeholder="name@lavatraining.com" required />
+          </label>
+          <label class="field">
+            <span>Portal role</span>
+            <select id="userRole">
+              <option>VA Trainee</option>
+              <option>Trainer / TL</option>
+              <option>Producer Practice</option>
+            </select>
+          </label>
+          <p id="loginError" class="error-text" role="alert"></p>
+          <button class="btn primary full" type="submit">Enter Portal</button>
+          <p class="fine-print">Training data is stored only in this browser using localStorage.</p>
+        </form>
+      </div>
+    </section>
+
+    <section id="portalScreen" class="screen portal-screen">
+      <aside class="sidebar">
+        <button class="logo-button" type="button" data-route="dashboard">
+          <img src="images/lava-logo.svg" alt="LAVA logo" />
+          <span><strong>PL RATER</strong><small>Carrier Portal</small></span>
+        </button>
+
+        <nav class="side-nav" aria-label="Main navigation">
+          <button class="active" type="button" data-route="dashboard"><span>▣</span> Dashboard</button>
+          <button type="button" data-route="quote"><span>✎</span> New Business Quote</button>
+          <button type="button" data-route="appetite"><span>◈</span> Carrier Appetite</button>
+          <button type="button" data-route="history"><span>☷</span> Quote History</button>
+          <button type="button" data-route="guide"><span>?</span> Training Guide</button>
+        </nav>
+
+        <div class="sidebar-footer panel soft">
+          <small>Signed in as</small>
+          <strong id="miniUserName">User</strong>
+          <span id="miniUserRole">VA Trainee</span>
+          <button id="logoutBtn" type="button" class="btn ghost full">Logout</button>
+        </div>
+      </aside>
+
+      <div class="main-panel">
+        <header class="topbar panel soft">
+          <div>
+            <p id="portalDate" class="eyebrow">Carrier Workspace</p>
+            <h2 id="pageTitle">Dashboard</h2>
+          </div>
+          <div class="topbar-actions">
+            <button id="themeBtn" type="button" class="btn ghost">Toggle Theme</button>
+            <button type="button" class="btn primary" data-route="quote">Start Quote</button>
+          </div>
+        </header>
+
+        <section id="dashboardView" class="view active">
+          <div class="dashboard-banner panel raised">
+            <div>
+              <p class="eyebrow">New Business Rating</p>
+              <h2>Realistic carrier intake with full New Business underwriting questions.</h2>
+              <p>Start with account setup, complete carrier-style questions, run simulated eligibility/rating logic, then save or print quote results.</p>
+            </div>
+            <div class="banner-actions">
+              <button class="btn primary" type="button" data-start-product="auto">Start Auto Quote</button>
+              <button class="btn secondary" type="button" data-start-product="home">Start Home Quote</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat panel soft"><span>Total quotes</span><strong id="statTotal">0</strong></article>
+            <article class="stat panel soft"><span>Auto</span><strong id="statAuto">0</strong></article>
+            <article class="stat panel soft"><span>Home</span><strong id="statHome">0</strong></article>
+            <article class="stat panel soft"><span>Last premium</span><strong id="statPremium">—</strong></article>
+          </div>
+
+          <div class="grid two">
+            <article class="panel raised">
+              <div class="section-head">
+                <div><p class="eyebrow">Carrier Flow</p><h3>Quote processing path</h3></div>
+                <span class="status-pill good">Active</span>
+              </div>
+              <ol class="timeline-list">
+                <li><strong>Account Setup</strong><span>Transaction, producer, effective date, line of business.</span></li>
+                <li><strong>Named Insured</strong><span>Legal name, DOB, contact, household and address verification.</span></li>
+                <li><strong>Risk Details</strong><span>Vehicle/driver or property characteristics and prior insurance.</span></li>
+                <li><strong>Coverage Selection</strong><span>Limits, deductibles, endorsements, discounts, payment plan.</span></li>
+                <li><strong>Underwriting Review</strong><span>Eligibility questions, flags, referral notes, quote action.</span></li>
+              </ol>
+            </article>
+
+            <article class="panel raised">
+              <div class="section-head">
+                <div><p class="eyebrow">Recent Activity</p><h3>Last saved quote</h3></div>
+                <button class="btn ghost small" type="button" data-route="history">View History</button>
+              </div>
+              <div id="recentQuoteBox" class="empty-box">No saved quote yet.</div>
+            </article>
+          </div>
+        </section>
+
+        <section id="quoteView" class="view">
+          <div class="quote-command panel raised">
+            <div>
+              <p class="eyebrow">Quote Entry</p>
+              <h3 id="quoteTitle">Auto New Business Quote</h3>
+              <p id="quoteSubtitle">Complete each carrier portal section. Required fields must be answered before carrier review.</p>
+            </div>
+            <div class="product-switch" role="group" aria-label="Product selection">
+              <button id="autoProductBtn" class="active" type="button" data-product="auto">Personal Auto</button>
+              <button id="homeProductBtn" type="button" data-product="home">Homeowners</button>
+            </div>
+          </div>
+
+          <div class="quote-shell">
+            <aside class="workflow-rail panel soft">
+              <div class="quote-card-mini">
+                <small>Quote number</small>
+                <strong id="quoteNumberMini">LQR-000000</strong>
+                <span id="quoteStatusMini">Entry In Progress</span>
+              </div>
+              <div id="stepList" class="step-list"></div>
+              <div class="progress-box">
+                <span>Completion</span>
+                <div class="progress-track"><div id="progressBar" class="progress-fill"></div></div>
+                <strong id="progressText">0%</strong>
+              </div>
+            </aside>
+
+            <section class="form-workspace panel raised">
+              <div class="form-toolbar">
+                <div>
+                  <p id="stepEyebrow" class="eyebrow">Step 1</p>
+                  <h3 id="stepTitle">Account Setup</h3>
+                  <p id="stepHelper" class="helper-text">Answer all required fields.</p>
+                </div>
+                <div class="toolbar-actions">
+                  <button id="validateStepBtn" class="btn ghost small" type="button">Validate Section</button>
+                  <button id="clearQuoteBtn" class="btn danger small" type="button">Clear Quote</button>
+                </div>
+              </div>
+
+              <div id="questionContainer" class="question-grid"></div>
+              <div id="validationBox" class="validation-box" hidden></div>
+
+              <div class="quote-actions">
+                <button id="prevStepBtn" class="btn ghost" type="button">Previous</button>
+                <button id="nextStepBtn" class="btn secondary" type="button">Save & Continue</button>
+                <button id="runQuoteBtn" class="btn primary" type="button" hidden>Run Carrier Review</button>
+              </div>
+            </section>
+          </div>
+
+          <section id="resultsPanel" class="results-panel panel raised" hidden>
+            <div class="section-head">
+              <div><p class="eyebrow">Carrier Review</p><h3>Quote Results & Underwriting Decision</h3></div>
+              <div class="result-actions">
+                <button id="saveQuoteBtn" class="btn primary" type="button">Save Quote</button>
+                <button id="printQuoteBtn" class="btn ghost" type="button">Print / Save PDF</button>
+              </div>
+            </div>
+            <div id="quoteSummary" class="quote-summary"></div>
+            <div id="resultCards" class="result-grid"></div>
+            <div id="underwritingNotes" class="uw-notes"></div>
+          </section>
+        </section>
+
+        <section id="appetiteView" class="view">
+          <div class="panel raised">
+            <div class="section-head">
+              <div><p class="eyebrow">Carrier Setup</p><h3>Training Carrier Appetite Matrix</h3></div>
+              <span class="status-pill neutral">Fictional carriers for training</span>
+            </div>
+            <p class="muted">Use this section to teach why some risks receive preferred pricing, referral status, non-standard placement, or decline.</p>
+            <div id="appetiteGrid" class="appetite-grid"></div>
+          </div>
+        </section>
+
+        <section id="historyView" class="view">
+          <div class="panel raised">
+            <div class="section-head">
+              <div><p class="eyebrow">Saved Quotes</p><h3>Quote History</h3></div>
+              <div class="history-actions">
+                <button id="exportCsvBtn" class="btn ghost" type="button">Export CSV</button>
+                <button id="clearHistoryBtn" class="btn danger" type="button">Clear History</button>
+              </div>
+            </div>
+            <div id="historyTableWrap" class="table-wrap"></div>
+          </div>
+        </section>
+
+        <section id="guideView" class="view">
+          <div class="panel raised">
+            <p class="eyebrow">Training Guide</p>
+            <h3>How trainees should use this carrier portal</h3>
+            <div class="guide-grid">
+              <article>
+                <h4>1. Read every question carefully</h4>
+                <p>Each field is written like a real carrier portal question. Do not skip fields just because they look small; quote accuracy depends on details.</p>
+              </article>
+              <article>
+                <h4>2. Confirm risk facts before rating</h4>
+                <p>Auto quotes require garaging, VIN, drivers, violations, prior insurance, and coverage selection. Home quotes require occupancy, roof, updates, claims, and hazards.</p>
+              </article>
+              <article>
+                <h4>3. Watch underwriting flags</h4>
+                <p>Referral or decline does not always mean the quote is wrong. It means the risk needs review, documentation, or different placement.</p>
+              </article>
+              <article>
+                <h4>4. Save and print results</h4>
+                <p>Save the quote for the trainer dashboard/history. Use Print / Save PDF to create a browser PDF copy for submission practice.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <template id="printTemplate"></template>
+  <script src="js/app.js"></script>
+</body>
+</html>
