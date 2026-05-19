@@ -1,5 +1,3 @@
 {
-  "purpose": "Optional reference copy of the built-in scenarios. The app works without fetching this file.",
-  "autoScenarios": ["easy", "normal", "hard"],
-  "homeScenarios": ["easy", "normal", "hard"]
+  "note": "Training scenarios are built into js/app.js so the standalone portal works without fetch, server, build command, or external dependency."
 }
